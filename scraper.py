@@ -18,9 +18,11 @@ FILTER_PARAM = "?filter="
 
 # example filter extension = ?filter=m_color_eq_hitam%2Cm_fuel_eq_bensin%2Cm_seller_type_eq_seller-type-individu%2Cm_transmission_eq_manual%2Cmileage_eq_45
 # format : mileage_eq_130_and_135_and_200
-mileage = [
-    45, 55, 35, 30, 105, 40, 25, 20, 50, 15, 65, 5, 60, 75, 100, 70, 85, 10, 80, 95, 90, 110, 115, 120, 125, 301, 130, 155, 135, 150, 145, 205, 140, 160, 165, 200, 175, 170, 180, 185, 195, 190, 210, 300, 215, 225, 220, 255, 230, 235, 245, 250, 240, 260, 285, 275, 265, 280, 295, 270, 290
+mileage_list = [
+    [45, 55, 35, 30, 105], [40, 25, 20, 50, 15], [65, 5, 60, 75, 100], [70, 85, 10, 80, 95], [90, 110, 115, 120, 125], [301, 130, 155, 135, 150], [145, 205, 140, 160, 165], [200, 175, 170, 180, 185], [195, 190, 210, 300, 215], [225, 220, 255, 230, 235], [245, 250, 240, 260, 285], [275, 265, 280, 295, 270, 290]
 ]
+
+mileage = ['_and_'.join(map(str, mil)) for mil in mileage_list]
 
 # format : m_fuel_eq_bensin_and_diesel
 fuel = [
@@ -118,8 +120,10 @@ def save_into_csv(df, page_url):
 
 page_urls = generate_url_combinations()
 
-for page_url in page_urls[1:]:
-    print('- Scraping Cars', page_url)
+count = 1
+for page_url in page_urls:
+    print('- Scraping Cars', page_url, '-', count, '/', len(page_url))
+    count += 1
     try:
       page_source = get_full_page_source(page_url)
       urls_per_page = get_urls_per_page(page_source)
