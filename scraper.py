@@ -117,9 +117,8 @@ def save_into_csv(df, page_url):
     df.to_csv(output_path, index = None, header = True)
 
 page_urls = generate_url_combinations()
-page_urls = [page_urls[0]]
 
-for page_url in page_urls:
+for page_url in page_urls[1:]:
     print('- Scraping Cars', page_url)
     try:
       page_source = get_full_page_source(page_url)
